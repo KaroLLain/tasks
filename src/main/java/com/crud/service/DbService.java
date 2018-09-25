@@ -22,4 +22,8 @@ public class DbService {
     public Task getTask(long id){
         return repository.findOne(id);
     }
+
+    public Task saveTask(final Task task){
+        return repository.save(task);
+    }
 }
