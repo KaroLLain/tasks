@@ -29,12 +29,13 @@ public class TaskController {
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "deleteTask")
-    public void deleteTask(Long taskId){
+    public TaskDto deleteTask(@PathVariable Long taskId){
+        return service.deleteTask(taskId);
     }
 
     @RequestMapping(method = RequestMethod.PUT, value = "updateTask")
-    public TaskDto updateTask(TaskDto taskDto){
-        return new TaskDto(1L, "Edited test title", "Test content");
+    public TaskDto updateTask(@RequestBody TaskDto taskDto){
+        return taskMapper.mapToTaskDto(service.saveTask(taskMapper.mapToTask(taskDto)));
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "createTask", consumes = APPLICATION_JSON_VALUE)
