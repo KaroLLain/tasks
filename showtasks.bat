@@ -5,7 +5,7 @@ echo Something went wrong.
 goto fail
 
 :website
-start http://localhost:8080/crud/v1/tasks/getTasks
+start https://floating-anchorage-64751.herokuapp.com/v1/tasks/
 if "%ERRORLEVEL%" == "0" goto end
 echo.
 echo There were problems with browser.
