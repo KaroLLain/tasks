@@ -30,21 +30,17 @@ public class TrelloClient {
 
     @Autowired
     private RestTemplate restTemplate;
+    URI url = getTrelloBoardsUrl();
 
     public List<TrelloBoardDto> getTrelloBoards() {
 
-        URI url = getTrelloBoardsUri();
+        TrelloBoardDto[] boardsResponse = restTemplate.getForObject(url, TrelloBoardDto[].class);
+        return Arrays.asList(Optional.ofNullable(boardsResponse).orElse(new TrelloBoardDto[0]));
 
-        try {
-            TrelloBoardDto[] boardsResponse = restTemplate.getForObject(url, TrelloBoardDto[].class);
-            return Arrays.asList(Optional.ofNullable(boardsResponse).orElse(new TrelloBoardDto[0]));
-        } catch (RuntimeException e) {
-            return new ArrayList<>();
-        }
     }
 
-    private URI getTrelloBoardsUri() {
-        return  UriComponentsBuilder.fromHttpUrl(trelloApiEndpoint + "/members/karolain2/boards")
+    private URI getTrelloBoardsUrl() {
+        return UriComponentsBuilder.fromHttpUrl(trelloApiEndpoint + "/members/karolain2/boards")
                 .queryParam("key", trelloAppKey)
                 .queryParam("token", trelloToken)
                 .queryParam("fields", "name,id").build().encode().toUri();
